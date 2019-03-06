@@ -1,6 +1,4 @@
-.card {
-  transition: all 0.2s linear;
-}
+/* Resets */
 
 *,
 *::after,
@@ -37,6 +35,7 @@ button {
   -webkit-appearance: none;
   /* Remove excess padding and border in Firefox 4+ */
 }
+
 button::-moz-focus-inner {
   border: 0;
   padding: 0;
@@ -51,10 +50,11 @@ input {
   box-shadow: none;
 }
 
+/* Cards */
 .cards {
   width: 100%;
   position: relative;
-  margin: 50px 0;
+  margin: 75px 0;
 }
 
 .cards__grid {
@@ -68,12 +68,14 @@ input {
 }
 
 .card {
+  position: relative;
   width: 300px;
   height: 435px;
   overflow: hidden;
   z-index: 2;
   cursor: pointer;
   will-change: transform;
+  transition: all 0.2s linear;
   margin: 15px;
 }
 
@@ -83,18 +85,47 @@ input {
   border-radius: 10px;
 }
 
+.card__title {
+  position: absolute;
+  opacity: 0;
+  color: white;
+  transition: opacity 0.6s;
+  font-size: 2em;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  flex-direction: column;
+  line-height: 1.1em;
+}
+
 .card:hover {
   filter: contrast(1.2);
   z-index: 4;
   transform: scale(1.1);
 }
 
+.card:hover .card__title {
+  opacity: 1;
+}
+
+/* Search */
 .search-button {
   color: beige;
   position: absolute;
   top: 20px;
   right: 30px;
   cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+  opacity: 0;
 }
 
 .icon {
@@ -104,10 +135,12 @@ input {
 .search__wrapper {
   position: fixed;
   display: flex;
+  transition: opacity 0.6s;
   justify-content: center;
   align-items: center;
   left: 0;
   top: 0;
+  opacity: 1;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
@@ -130,13 +163,21 @@ input {
   cursor: pointer;
 }
 
+/* Details */
 .details {
+  position: fixed;
+  transition: opacity 0.6s;
+  opacity: 1;
+  left: 0;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
   padding: 50px;
+  z-index: 99;
+  background: rgba(49, 57, 76, 0.9);
 }
 
 .details__wrapper {
@@ -161,33 +202,24 @@ input {
   font-size: 28px;
 }
 
+.details__close {
+  color: beige;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  cursor: pointer;
+}
+
+.details__rating {
+  display: flex;
+}
+
+.details__rating .rating__content {
+  padding-left: 10px;
+  font-size: 1.2em;
+}
+
+/* Font */
 .small {
   font-size: 0.8em;
-}
-
-.actors {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  margin-bottom: 15px;
-  padding: 0;
-}
-
-.actors__profile {
-  margin: 0 5px;
-  width: 100px;
-}
-
-.actors__image {
-  display: block;
-  width: 80px;
-  height: 80px;
-  border-radius: 5px;
-  background-size: cover;
-  margin-bottom: 10px;
-}
-
-.actors__name {
-  display: block;
-  font-weight: 500;
 }

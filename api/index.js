@@ -2,7 +2,10 @@ const serve = require('serve-handler');
 const { send } = require('micro');
 const { router, get } = require('microrouter');
 const query = require('micro-query');
+const microCors = require('micro-cors');
+
 const movies = require('./movies');
+const cors = microCors({ allowMethods: ['GET'] })
 
 const sorter = (sort, order) => (a, b) => {
   if (!sort) {
@@ -28,7 +31,7 @@ const sorter = (sort, order) => (a, b) => {
   return 0;
 }
 
-const api = async (req) => {
+const api = cors((req) => {
   const {
     q = '',
     limit = movies.length - 1,
@@ -58,7 +61,7 @@ const api = async (req) => {
     params,
     results
   }
-};
+});
 
 const image = async (req, res) => await serve(req, res, {
   cleanUrls: true

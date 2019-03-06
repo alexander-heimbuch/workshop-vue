@@ -1,0 +1,66 @@
+<html lang="en-us" dir="ltr">
+
+<head>
+  <title>Movies</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="./style.css" />
+</head>
+
+<body>
+  <button class="search-button" id="search-toggle">
+    <svg class="icon" width="48" height="48" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"
+      viewbox="0 0 24 24">
+      <path
+        d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" />
+    </svg>
+  </button>
+
+  <div class="search__wrapper" id="search">
+    <button class="search__close" id="search-close">
+      <svg class="icon" width="48" height="48" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+        clip-rule="evenodd" viewbox="0 0 24 24">
+        <path
+          d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z" />
+        </svg>
+    </button>
+    <input class="search__input" placeholder="Suchen" />
+  </div>
+
+  <div class="cards">
+    <div class="cards__grid" id="cards"></div>
+  </div>
+
+  <div class="details" id="details">
+    <button class="details__close" id="details-close">
+      <svg class="icon" width="48" height="48" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+        clip-rule="evenodd" viewbox="0 0 24 24">
+        <path
+          d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z" />
+        </svg>
+    </button>
+
+    <div class="details__wrapper">
+      <div class="card">
+        <img class="card__poster" id="details-poster" />
+      </div>
+      <div class="details__info">
+        <h2 class="details__headline details__title"><span id="details-title"></span></h2>
+        <h3 class="details__headline">Abstract</h3>
+        <p id="details-abstract"></p>
+        <div class="details__rating">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z"/></svg>
+          <div class="rating__content" id="details-rating"></div>
+        </div>
+        <div class="details__rating">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M15.43 8.814c.808-3.283 1.252-8.814-2.197-8.814-1.861 0-2.35 1.668-2.833 3.329-1.971 6.788-5.314 7.342-8.4 7.743v9.928c3.503 0 5.584.729 8.169 1.842 1.257.541 3.053 1.158 5.336 1.158 2.538 0 4.295-.997 5.009-3.686.5-1.877 1.486-7.25 1.486-8.25 0-1.649-1.168-2.446-2.594-2.507-1.21-.051-2.87-.277-3.976-.743zm3.718 4.321l-1.394.167s-.609 1.109.141 1.115c0 0 .201.01 1.069-.027 1.082-.046 1.051 1.469.004 1.563l-1.761.099c-.734.094-.656 1.203.141 1.172 0 0 .686-.017 1.143-.041 1.068-.056 1.016 1.429.04 1.551-.424.053-1.745.115-1.745.115-.811.072-.706 1.235.109 1.141l.771-.031c.822-.074 1.003.825-.292 1.661-1.567.881-4.685.131-6.416-.614-2.238-.965-4.437-1.934-6.958-2.006v-6c3.263-.749 6.329-2.254 8.321-9.113.898-3.092 1.679-1.931 1.679.574 0 2.071-.49 3.786-.921 5.533 1.061.543 3.371 1.402 6.12 1.556 1.055.059 1.025 1.455-.051 1.585z"/></svg>
+          <div class="rating__content" id="details-votes"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="./index.js"></script>
+</body>
+
+</html>
