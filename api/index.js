@@ -3,6 +3,7 @@ const { send } = require('micro');
 const { router, get } = require('microrouter');
 const query = require('micro-query');
 const microCors = require('micro-cors');
+const sleep = require('then-sleep')
 
 const movies = require('./movies');
 const cors = microCors({ allowMethods: ['GET'] })
@@ -31,7 +32,7 @@ const sorter = (sort, order) => (a, b) => {
   return 0;
 }
 
-const api = cors((req) => {
+const api = cors(async (req) => {
   const {
     q = '',
     limit = movies.length - 1,
@@ -54,6 +55,8 @@ const api = cors((req) => {
     .filter(({ title }) => title.toLowerCase().includes(params.q)) // search
     .sort(sorter(params.sort, params.order)) // sort
     .slice(params.start - 1, params.end || params.limit); // limiter
+
+   await sleep(Math.floor(Math.random() * 1000) + 200);
 
   return {
     hits: results.length,

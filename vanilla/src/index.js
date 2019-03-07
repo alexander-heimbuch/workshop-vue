@@ -1,5 +1,6 @@
 const backend = 'http://localhost:3000';
-const container = document.getElementById('cards');
+const spinner = document.getElementById('spinner');
+const cards = document.getElementById('cards');
 const details = document.getElementById('details');
 const detailsClose = document.getElementById('details-close');
 const detailsTitle = document.getElementById('details-title');
@@ -23,17 +24,35 @@ function getData({ limit = 50 } = {}) {
     .then(results => results.map(result => Object.assign({}, result, { image: `${backend}/${result.image}` })))
 }
 
-function showCard({ image, title, overview, rating, votes } = {}) {
-  return () => {
-    document.title = title;
+function setCardContent({ image, title, overview, rating, votes } = {}) {
+  document.title = title;
+  detailsTitle.textContent = title;
+  detailsAbstract.textContent = overview;
+  detailsRating.textContent = rating;
+  detailsVotes.textContent = votes;
+  detailsPoster.setAttribute('src', image);
+}
 
-    details.classList.toggle('hidden');
-    detailsTitle.textContent = title;
-    detailsAbstract.textContent = overview;
-    detailsRating.textContent = rating;
-    detailsVotes.textContent = votes;
-    detailsPoster.setAttribute('src', image);
-  }
+function closeSearch() {
+  search.classList.add('hidden');
+  searchToggle.classList.remove('hidden');
+  document.title = 'Movies';
+}
+
+function showSearch() {
+  search.classList.remove('hidden');
+  searchToggle.classList.add('hidden');
+}
+
+function closeDetail() {
+  details.classList.add('hidden');
+  searchToggle.classList.remove('hidden');
+  document.title = 'Movies';
+}
+
+function showDetail() {
+  details.classList.remove('hidden');
+  searchToggle.classList.add('hidden');
 }
 
 // Component Creation
@@ -52,43 +71,47 @@ function createCard(movie) {
   cardEl.appendChild(titelEl);
   cardEl.appendChild(imageEl);
 
-  cardEl.addEventListener('click', showCard(movie), false);
+  cardEl.addEventListener('click', () => {
+    setCardContent(movie);
+    showDetail();
+  }, false);
 
   return cardEl;
 }
 
-// User Interactions
+// Event Bindings
 searchToggle.addEventListener('click', () => {
-  search.classList.toggle('hidden');
-  searchToggle.classList.toggle('hidden');
+  showSearch();
   document.title = 'Movies - Suchen';
 }, false);
 
-searchClose.addEventListener('click', () => {
-  search.classList.toggle('hidden');
-  searchToggle.classList.toggle('hidden');
-  document.title = 'Movies';
-}, false);
+searchClose.addEventListener('click', closeSearch, false);
 
-detailsClose.addEventListener('click', () => {
-  details.classList.toggle('hidden');
-  searchToggle.classList.toggle('hidden');
-  document.title = 'Movies';
-}, false)
+detailsClose.addEventListener('click', closeDetail, false)
+
+// Key Bindings
+document.addEventListener('keyup', (event) => {
+  switch (event.which) {
+    case 27: // ESC
+      closeSearch();
+      closeDetail();
+      break;
+  }
+});
 
 // Init
 search.classList.add('hidden');
 details.classList.add('hidden');
+cards.classList.add('hidden');
+searchToggle.classList.add('hidden');
 
-getData().then(results => results
-  .map(createCard)
-  .map(el => container.appendChild(el)));
-
-/**
- * LEARNINGS:
- *
- * - Components: Creation, Updates, Split between Template Creation and Component Logic, Reusability
- * - State Management: Creating, Maintaining and Updating the Application State
- * - Managing Side Effects: Handling API Calls and User Interactions
- * -
- */
+getData()
+  .then(results => results
+    .map(createCard)
+    .map(el => cards.appendChild(el))
+  )
+  .then(() => {
+    spinner.classList.add('hidden');
+    cards.classList.remove('hidden');
+    searchToggle.classList.remove('hidden');
+  });
