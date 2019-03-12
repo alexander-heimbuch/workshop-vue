@@ -1,15 +1,30 @@
 <template>
   <div id="app">
-    <card title="fooo" image="https://m.media-amazon.com/images/M/MV5BN2IyNTE4YzUtZWU0Mi00MGIwLTgyMmQtMzQ4YzQxYWNlYWE2XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_CR0,0,666,1000_AL_.jpg" />
+    <cards-wrapper>
+      <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" />
+    </cards-wrapper>
   </div>
 </template>
 
 <script>
+import api from './api'
+import CardsWrapper from './components/CardsWrapper'
 import Card from './components/Card'
 
 export default {
+  data () {
+    return {
+      movies: []
+    }
+  },
+
   components: {
-    Card
+    Card,
+    CardsWrapper
+  },
+
+  async mounted () {
+    this.movies = await api.get()
   }
 }
 
