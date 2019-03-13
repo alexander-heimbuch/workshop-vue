@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <search-toggle class="search-toggle" @click="showSearch" v-if="!search" />
+    <search-form v-if="search" @close="hideSearch"/>
     <cards-wrapper>
       <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" />
     </cards-wrapper>
@@ -8,23 +10,39 @@
 
 <script>
 import api from './api'
+
 import CardsWrapper from './components/CardsWrapper'
 import Card from './components/Card'
+import SearchToggle from './components/SearchToggle'
+import SearchForm from './components/SearchForm'
 
 export default {
   data () {
     return {
-      movies: []
+      movies: [],
+      search: false
     }
   },
 
   components: {
     Card,
-    CardsWrapper
+    CardsWrapper,
+    SearchToggle,
+    SearchForm
   },
 
   async mounted () {
-    this.movies = await api.get()
+    this.movies = await api.get();
+  },
+
+  methods: {
+    showSearch () {
+      this.search = true;
+    },
+
+    hideSearch () {
+      this.search = false;
+    }
   }
 }
 
@@ -79,5 +97,11 @@ export default {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+  }
+
+  .search-toggle {
+    position: absolute;
+    top: 20px;
+    right: 30px;
   }
 </style>
