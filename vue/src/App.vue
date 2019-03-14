@@ -54,6 +54,17 @@ export default {
     await this.fetchMovies();
   },
 
+  created () {
+    document.addEventListener('keyup', (event) => {
+      switch (event.which) {
+        case 27: // ESC
+          this.hideSearch();
+          this.hideDetails();
+          break;
+      }
+    });
+  },
+
   methods: {
     onSearch (query) {
       this.search = false;
