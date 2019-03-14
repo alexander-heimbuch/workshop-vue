@@ -3,7 +3,7 @@
     <button class="search__close" @click="handleClick()">
       <close-icon />
     </button>
-    <input class="search__input" placeholder="Search" @keyup.enter="handleInput($event)" />
+    <input class="search__input" placeholder="Search" :value="query" @keyup.enter="handleInput($event)" />
   </div>
 </template>
 
@@ -11,6 +11,12 @@
 import { CloseIcon } from './icons';
 
 export default {
+  props: {
+    query: {
+      type: String
+    }
+  },
+
   components: {
     CloseIcon
   },

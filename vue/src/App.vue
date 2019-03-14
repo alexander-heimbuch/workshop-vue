@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <search-toggle class="search-toggle" @click="showSearch" v-if="!search" />
-    <search-form v-if="search" @close="hideSearch" @search="onSearch"/>
-    <cards-wrapper>
+    <search-form v-if="search" :query="query" @close="hideSearch" @search="onSearch" />
+    <cards-wrapper v-if="!loading && movies.length > 0">
       <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" @click="showDetails(movie)" />
     </cards-wrapper>
-    <movie-details v-if="details.visible" @close="hideDetails()" :title="details.title" :image="details.image" :overview="details.overview" :votes="details.votes" :rating="details.rating" />
+    <movie-details v-if="details.visible" @close="hideDetails()" :title="details.title" :image="details.image" :overview="details.overview" :votes="details.votes" :rating="details.rating" @keydown.esc="hideSearch" />
+    <loader v-if="loading" />
+    <not-found v-if="!loading && movies.length === 0" />
   </div>
 </template>
 
@@ -17,12 +19,16 @@ import Card from './components/Card'
 import SearchToggle from './components/SearchToggle'
 import SearchForm from './components/SearchForm'
 import MovieDetails from './components/MovieDetails'
+import Loader from './components/Loader'
+import NotFound from './components/NotFound'
 
 export default {
   data () {
     return {
       movies: [],
       search: false,
+      loading: false,
+      query: '',
       details: {
         visible: false,
         title: null,
@@ -39,7 +45,9 @@ export default {
     CardsWrapper,
     SearchToggle,
     SearchForm,
-    MovieDetails
+    MovieDetails,
+    Loader,
+    NotFound
   },
 
   async mounted () {
@@ -48,13 +56,15 @@ export default {
 
   methods: {
     onSearch (query) {
-      this.fetchMovies(query).then(() => {
-        this.search = false;
-      });
+      this.search = false;
+      this.query = query;
+      this.fetchMovies(query);
     },
 
     async fetchMovies (q = '') {
+      this.loading = true;
       this.movies = await api.get({ q });
+      this.loading = false;
     },
 
     showSearch () {
