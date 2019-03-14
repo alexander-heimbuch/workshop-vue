@@ -1,6 +1,6 @@
 <template>
-  <div class="card">
-    <div class="card__title">
+  <div class="card" @click="handleClick()">
+    <div class="card__title" v-if="title">
       {{ title }}
     </div>
 
@@ -17,6 +17,12 @@ export default {
 
     image: {
       type: String
+    }
+  },
+
+  methods: {
+    handleClick () {
+      this.$emit('click')
     }
   }
 }

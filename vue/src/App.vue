@@ -3,8 +3,9 @@
     <search-toggle class="search-toggle" @click="showSearch" v-if="!search" />
     <search-form v-if="search" @close="hideSearch"/>
     <cards-wrapper>
-      <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" />
+      <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" @click="showDetails(movie)" />
     </cards-wrapper>
+    <movie-details v-if="details.visible" @close="hideDetails()" :title="details.title" :image="details.image" :overview="details.overview" :votes="details.votes" :rating="details.rating" />
   </div>
 </template>
 
@@ -15,12 +16,21 @@ import CardsWrapper from './components/CardsWrapper'
 import Card from './components/Card'
 import SearchToggle from './components/SearchToggle'
 import SearchForm from './components/SearchForm'
+import MovieDetails from './components/MovieDetails'
 
 export default {
   data () {
     return {
       movies: [],
-      search: false
+      search: false,
+      details: {
+        visible: false,
+        title: null,
+        image: null,
+        overview: null,
+        rating: null,
+        votes: null
+      },
     }
   },
 
@@ -28,7 +38,8 @@ export default {
     Card,
     CardsWrapper,
     SearchToggle,
-    SearchForm
+    SearchForm,
+    MovieDetails
   },
 
   async mounted () {
@@ -42,6 +53,19 @@ export default {
 
     hideSearch () {
       this.search = false;
+    },
+
+    showDetails ({ title, image, overview, rating, votes }) {
+      this.details.visible = true;
+      this.details.title = title;
+      this.details.image = image;
+      this.details.overview = overview;
+      this.details.rating = rating;
+      this.details.votes = votes;
+    },
+
+    hideDetails () {
+      this.details.visible = false;
     }
   }
 }
