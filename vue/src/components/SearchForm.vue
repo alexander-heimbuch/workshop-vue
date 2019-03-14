@@ -3,7 +3,7 @@
     <button class="search__close" @click="handleClick()">
       <close-icon />
     </button>
-    <input class="search__input" placeholder="Search" />
+    <input class="search__input" placeholder="Search" @keyup.enter="handleInput($event)" />
   </div>
 </template>
 
@@ -18,6 +18,10 @@ export default {
   methods: {
     handleClick () {
       this.$emit('close');
+    },
+
+    handleInput ({ target }) {
+      this.$emit('search', target.value);
     }
   }
 }

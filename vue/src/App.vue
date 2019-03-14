@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <search-toggle class="search-toggle" @click="showSearch" v-if="!search" />
-    <search-form v-if="search" @close="hideSearch"/>
+    <search-form v-if="search" @close="hideSearch" @search="onSearch"/>
     <cards-wrapper>
       <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" @click="showDetails(movie)" />
     </cards-wrapper>
@@ -43,10 +43,20 @@ export default {
   },
 
   async mounted () {
-    this.movies = await api.get();
+    await this.fetchMovies();
   },
 
   methods: {
+    onSearch (query) {
+      this.fetchMovies(query).then(() => {
+        this.search = false;
+      });
+    },
+
+    async fetchMovies (q = '') {
+      this.movies = await api.get({ q });
+    },
+
     showSearch () {
       this.search = true;
     },
