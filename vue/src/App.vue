@@ -1,12 +1,22 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ fixed: search || loading || details.visible }">
     <search-toggle class="search-toggle" @click="showSearch" v-if="!search" />
-    <search-form v-if="search" :query="query" @close="hideSearch" @search="onSearch" />
-    <cards-wrapper v-if="!loading && movies.length > 0">
-      <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" @click="showDetails(movie)" />
-    </cards-wrapper>
-    <movie-details v-if="details.visible" @close="hideDetails()" :title="details.title" :image="details.image" :overview="details.overview" :votes="details.votes" :rating="details.rating" @keydown.esc="hideSearch" />
-    <loader v-if="loading" />
+
+    <transition name="fade">
+      <search-form v-if="search" :query="query" @close="hideSearch" @search="onSearch" />
+    </transition>
+    <transition name="fade">
+      <cards-wrapper v-if="!loading && movies.length > 0">
+        <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" @click="showDetails(movie)" />
+      </cards-wrapper>
+    </transition>
+    <transition name="fade">
+      <movie-details v-if="details.visible" @close="hideDetails()" :title="details.title" :image="details.image" :overview="details.overview" :votes="details.votes" :rating="details.rating" @keydown.esc="hideSearch" />
+    </transition>
+    <transition name="fade">
+      <loader v-if="loading" />
+    </transition>
+
     <not-found v-if="!loading && movies.length === 0" />
   </div>
 </template>
@@ -154,9 +164,21 @@ export default {
     box-shadow: none;
   }
 
+  .fixed {
+    overflow: hidden;
+    height: 100vh;
+  }
+
   .search-toggle {
     position: absolute;
     top: 20px;
     right: 30px;
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 300ms;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
   }
 </style>
