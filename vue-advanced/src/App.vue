@@ -178,7 +178,6 @@ export default {
   .fade-enter-active, .fade-leave-active {
     transition: opacity 300ms;
   }
-
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
