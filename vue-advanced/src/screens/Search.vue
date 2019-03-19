@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { CloseIcon } from './icons';
+import { CloseIcon } from '../components/icons';
 
 export default {
   props: {
@@ -23,11 +23,11 @@ export default {
 
   methods: {
     handleClick () {
-      this.$emit('close');
+      this.$router.push('/');
     },
 
     handleInput ({ target }) {
-      this.$emit('search', target.value);
+      this.$router.push(`/${target.value}`)
     }
   }
 }

@@ -1,112 +1,83 @@
 <template>
-  <div id="app" :class="{ fixed: search || loading || details.visible }">
-    <search-toggle class="search-toggle" @click="showSearch" v-if="!search" />
+  <div id="app" :class="{ fixed }">
+    <router-link :to="`/search/${query}`" v-if="search">
+      <search-toggle class="search-toggle" />
+    </router-link>
 
     <transition name="fade">
-      <search-form v-if="search" :query="query" @close="hideSearch" @search="onSearch" />
-    </transition>
-    <transition name="fade">
       <cards-wrapper v-if="!loading && movies.length > 0">
-        <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" @click="showDetails(movie)" />
+        <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" />
       </cards-wrapper>
     </transition>
+
     <transition name="fade">
-      <movie-details v-if="details.visible" @close="hideDetails()" :title="details.title" :image="details.image" :overview="details.overview" :votes="details.votes" :rating="details.rating" @keydown.esc="hideSearch" />
+      <not-found v-if="!loading && movies.length === 0" />
     </transition>
+
     <transition name="fade">
       <loader v-if="loading" />
     </transition>
 
-    <not-found v-if="!loading && movies.length === 0" />
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
-import api from './api'
-
+import SearchToggle from './components/SearchToggle'
+import Loader from './components/Loader'
 import CardsWrapper from './components/CardsWrapper'
 import Card from './components/Card'
-import SearchToggle from './components/SearchToggle'
-import SearchForm from './components/SearchForm'
-import MovieDetails from './components/MovieDetails'
-import Loader from './components/Loader'
 import NotFound from './components/NotFound'
+
+import api from './lib/api'
 
 export default {
   data () {
     return {
       movies: [],
-      search: false,
-      loading: false,
-      query: '',
-      details: {
-        visible: false,
-        title: null,
-        image: null,
-        overview: null,
-        rating: null,
-        votes: null
-      },
+      loading: false
     }
   },
 
   components: {
+    SearchToggle,
+    Loader,
     Card,
     CardsWrapper,
-    SearchToggle,
-    SearchForm,
-    MovieDetails,
-    Loader,
     NotFound
   },
 
-  async mounted () {
-    await this.fetchMovies();
+  watch: {
+    query: 'fetchData'
   },
 
   created () {
-    document.addEventListener('keyup', (event) => {
-      switch (event.which) {
-        case 27: // ESC
-          this.hideSearch();
-          this.hideDetails();
-          break;
-      }
-    });
+    if (!this.query) {
+      this.fetchData();
+    }
   },
 
   methods: {
-    onSearch (query) {
-      this.search = false;
-      this.query = query;
-      this.fetchMovies(query);
-    },
-
-    async fetchMovies (q = '') {
+    async fetchData () {
       this.loading = true;
-      this.movies = await api.get({ q });
+      this.movies = await api.get({ q: this.query });
       this.loading = false;
+    }
+  },
+
+  computed: {
+    query () {
+      return this.$route.params.query || ''
     },
 
-    showSearch () {
-      this.search = true;
+    search () {
+      return this.$route.matched.length === 0
     },
 
-    hideSearch () {
-      this.search = false;
-    },
-
-    showDetails ({ title, image, overview, rating, votes }) {
-      this.details.visible = true;
-      this.details.title = title;
-      this.details.image = image;
-      this.details.overview = overview;
-      this.details.rating = rating;
-      this.details.votes = votes;
-    },
-
-    hideDetails () {
-      this.details.visible = false;
+    fixed () {
+      return true
     }
   }
 }
