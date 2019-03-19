@@ -25,18 +25,17 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 import SearchToggle from './components/SearchToggle'
 import Loader from './components/Loader'
 import CardsWrapper from './components/CardsWrapper'
 import Card from './components/Card'
 import NotFound from './components/NotFound'
 
-import api from './lib/api'
-
 export default {
   data () {
     return {
-      movies: [],
       loading: false
     }
   },
@@ -50,21 +49,17 @@ export default {
   },
 
   watch: {
-    query: 'fetchData'
+    query: 'load'
   },
 
   created () {
-    if (!this.query) {
-      this.fetchData();
-    }
+    this.load();
   },
 
   methods: {
-    async fetchData () {
-      this.loading = true;
-      this.movies = await api.get({ q: this.query });
-      this.loading = false;
-    },
+    ...mapActions([
+      'load'
+    ]),
 
     showDetails (movie) {
       this.$router.push({ path: 'details', query: movie })
@@ -72,6 +67,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters([
+      'movies'
+    ]),
+
     query () {
       return this.$route.params.query || ''
     },
