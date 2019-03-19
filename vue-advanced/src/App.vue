@@ -34,12 +34,6 @@ import Card from './components/Card'
 import NotFound from './components/NotFound'
 
 export default {
-  data () {
-    return {
-      loading: false
-    }
-  },
-
   components: {
     SearchToggle,
     Loader,
@@ -68,7 +62,8 @@ export default {
 
   computed: {
     ...mapGetters([
-      'movies'
+      'movies',
+      'loading'
     ]),
 
     query () {
