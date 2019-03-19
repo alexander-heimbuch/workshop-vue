@@ -6,7 +6,7 @@
 
     <transition name="fade">
       <cards-wrapper v-if="!loading && movies.length > 0">
-        <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" />
+        <card v-for="(movie, index) in movies" :key="index" :title="movie.title" :image="movie.image" @click="showDetails(movie)" />
       </cards-wrapper>
     </transition>
 
@@ -64,6 +64,10 @@ export default {
       this.loading = true;
       this.movies = await api.get({ q: this.query });
       this.loading = false;
+    },
+
+    showDetails (movie) {
+      this.$router.push({ path: 'details', query: movie })
     }
   },
 
