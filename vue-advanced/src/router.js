@@ -1,6 +1,9 @@
+import Vue from 'vue'
 import VueRouter from 'vue-router';
 import Search from './screens/Search';
 import Details from './screens/Details';
+
+Vue.use(VueRouter);
 
 const routes = [{
   path: '/search', component: Search, props: true
