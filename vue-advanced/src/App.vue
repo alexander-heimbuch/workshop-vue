@@ -1,6 +1,6 @@
 <template>
-  <div id="app" :class="{ fixed }">
-    <router-link :to="`/search/${query}`" v-if="search">
+  <div id="app" :class="{ fixed: currentRoute === 'details' || currentRoute === 'search' }">
+    <router-link :to="`/search/${query}`" v-if="currentRoute === 'results'">
       <search-toggle class="search-toggle" />
     </router-link>
 
@@ -66,16 +66,12 @@ export default {
       'loading'
     ]),
 
+    currentRoute () {
+      return this.$route.name
+    },
+
     query () {
       return this.$route.params.query || ''
-    },
-
-    search () {
-      return this.$route.matched.length === 0
-    },
-
-    fixed () {
-      return true
     }
   }
 }
