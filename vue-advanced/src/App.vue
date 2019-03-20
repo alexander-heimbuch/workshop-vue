@@ -47,7 +47,7 @@ export default {
   },
 
   created () {
-    this.load();
+    this.load(this.query);
   },
 
   methods: {

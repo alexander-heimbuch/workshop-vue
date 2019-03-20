@@ -1,10 +1,11 @@
 export default {
-  setMovies (state, movies) {
-    state.movies = movies;
-    state.loading = false;
+  requestData (state, query) {
+    state.query = query;
+    state.loading = true;
   },
 
-  loading (state) {
-    state.loading = true;
+  resolveData (state, movies) {
+    state.movies = movies
+    state.loading = false;
   }
 }
