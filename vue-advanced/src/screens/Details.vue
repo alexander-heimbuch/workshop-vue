@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import { StarIcon } from '../components/icons';
 import { ThumbIcon } from '../components/icons';
 import { CloseIcon } from '../components/icons';
@@ -33,24 +35,36 @@ import Card from '../components/Card';
 
 export default {
   props: {
-    image: {
+    id: {
       type: String
+    }
+  },
+
+  computed: {
+    ...mapGetters([ 'movie' ]),
+
+    selectedMovie () {
+      return this.movie(this.id) || {};
     },
 
-    title: {
-      type: String
+    image () {
+      return this.selectedMovie.image;
     },
 
-    overview: {
-      type: String
+    title () {
+      return this.selectedMovie.title;
     },
 
-    rating: {
-      type: Number
+    overview () {
+      return this.selectedMovie.overview;
     },
 
-    votes: {
-      type: Number
+    rating () {
+      return this.selectedMovie.rating;
+    },
+
+    votes () {
+      return this.selectedMovie.votes;
     }
   },
 

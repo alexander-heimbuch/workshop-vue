@@ -55,8 +55,8 @@ export default {
       'load'
     ]),
 
-    showDetails (movie) {
-      this.$router.push({ path: 'details', query: movie })
+    showDetails ({ id }) {
+      this.$router.push(`details/${id}`)
     }
   },
 

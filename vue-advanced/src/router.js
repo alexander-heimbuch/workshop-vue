@@ -12,13 +12,7 @@ const routes = [{
   path: '/search/:query', component: Search, props: true,
   name: 'search'
 }, {
-  path: '/details', component: Details,  props: (route) => ({
-    image: route.query.image,
-    title: route.query.title,
-    overview: route.query.overview,
-    rating: route.query.rating,
-    votes: route.query.votes,
-  }),
+  path: '/details/:id', component: Details, props: true,
   name: 'details'
 }, {
   path: '/:query',
