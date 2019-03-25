@@ -1,6 +1,5 @@
 {
   "name": "@workshop-vue/api",
-  "private": "true",
   "version": "1.0.0",
   "description": "Movies API",
   "main": "index.js",

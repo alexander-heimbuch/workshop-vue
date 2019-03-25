@@ -12,7 +12,7 @@ Start the server with `npm start`, it will listen on [http://localhost:3000](htt
 
 ### /api
 
-parameter | name    | default         | usage |
+parameter | name    | default         | usage                           |
 --------- | ------- | --------------- | ------------------------------- |
 query     | `q`     | `''`            | fuzzy search on title           |
 start     | `start` | `1`             | result element list start       |
